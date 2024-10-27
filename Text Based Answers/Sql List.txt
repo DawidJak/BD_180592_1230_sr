@@ -1,0 +1,70 @@
+Zad 1.1
+CREATE TABLE postac( id_postaci int AUTO_INCREMENT, nazwa varchar(40), rodzaj enum('wiking','ptak','kobieta'), data_ur DATE, wiek int unsigned, PRIMARY KEY(id_postaci));
+
+1.2
+INSERT INTO postac VALUES (3,'Tesciowa','kobieta','1964-10-24',60);
+
+INSERT INTO postac VALUES (2,'Drozd','ptak','2023-10-24',1);
+
+INSERT INTO postac VALUES (1,'Bjorn','wiking','1994-10-24',30);
+
+1.3
+update postac set wiek=88 where id_postaci=3;
+
+Zad 2.1
+create table walizka( id_walizki int AUTO_INCREMENT, pojemnosc int unsigned, kolor enum('rozowy','czerwony','teczowy','zolty'), id_wlasciciela int, PRIMARY KEY (id_walizki), FOREIGN KEY (id_wlasciciela) REFERENCES postac(id_postaci)
+ON DELETE CASCADE;
+
+2.2
+ALTER TABLE walizka MODIFY COLUMN kolor enum('rozowy','czerwony','teczowy','zolty
+') default 'rozowy';
+
+2.3
+INSERT INTO walizka VALUES(1,100,'teczowy',1)
+
+INSERT INTO walizka VALUES(2,100,'czerwony',3);
+
+
+Zad 3.1
+CREATE TABLE izba( adres_budynku varchar(30), nazwa_izby varchar(30), metraz int unsigned, wlasciciel int, PRIMARY KEY(adres_budynku,nazwa_izby), FOREIGN KEY(wlasciciel) REFERENCES postac(id_postaci) ON DELETE SET NULL);
+
+3.2
+alter table izba add column kolor varchar(15) DEFAULT 'czarny' AFTER metraz;
+
+3.3
+INSERT INTO izba VALUES('sloneczna 57','spizarnia',25,'czarny',1)
+
+
+Zad 4.1
+create table przetwory( id_przetworu int, rok_produkcji varchar(4) default '1654', id_wykonawcy int, zawartosc varchar(30), dodatek varchar(30) default 'papryczka chilli', id_konsumenta int, PRIMARY KEY(id_przetworu), FOREIGN KEY (id_wykonawcy) REFERENCES postac(id_postaci), FOREIGN KEY (id_konsumenta) REFERENCES postac(id_postaci));
+
+4.2
+INSERT INTO przetwory(id_przetworu, id_wykonawcy, zawartosc, id_konsumenta) VALUES(1, 1, "bigos", 3);
+
+Zad 5.1
+ INSERT INTO postac(nazwa, rodzaj, data_ur, wiek) VALUES
+ ('Olaf','wiking','1901-8-10',59), ('Dolaf','wiking','1902-9-10',58), ('Tolaf','wiking','1903-10-10',57), ('Colaf','wiking','1904-11-10',56), ('Polaf','wiking','1905-12-10',55);
+
+ 5.2
+ CREATE TablE statek(nazwa_statku VARCHAR(30), rodzaj_staktu enum('zaglowiec','drebel'), data_wodowania DATE, max_ladownosc int unsigned, PRIMARY KEY(nazwa_statku));
+
+ 5.3
+  INSERT INTO statek VALUES ('Primo','drebel','1924-12-6',6), ('Dos','zaglowiec','1906-12-24',30);
+
+
+ 5.4
+  ALTER TABLE postac ADD COLUMN( funkcja varchar(30));
+
+5.5
+ UPDATE postac SET funkcja='kapitan' where id_postaci=1;
+
+ 5.6
+ALTER TABLE postac ADD column (statek varchar(40));ALTER TABLE postac ADD FOREIGN KEY(statek) references statek(nazwa_statku);
+
+5.7
+update postac set statek='Dos' where Not(id_postaci=3);
+
+5.8
+ DELETE FROM izba WHERE nazwa_izby='spizarnia';
+5.9
+drop table izba;
