@@ -1,0 +1,23 @@
+Zad1
+a) DELETE FROM postac WHERE rodzaj="wiking" AND nazwa != "Bjorn" ORDER BY wiek DESC LIMIT 2;
+
+b) ALTER TABLE walizka DROP CONSTRAINT walizka_ibfk_1;
+   ALTER TABLE przetwory DROP CONSTRAINT przetwory_ibfk_1;
+   ALTER TABLE przetwory DROP CONSTRAINT przetwory_ibfk_2;
+   ALTER TABLE postac DROP COLUMN id_postaci;
+
+Zad2
+a) ALTER TABLE postac ADD COLUMN pesel INT(11);
+   UPDATE postac SET pesel=data_ur*100+RAND()*100;
+   ALTER TABLE postac ADD PRIMARY KEY (pesel);
+
+b) ALTER TABLE postac MODIFY COLUMN rodzaj ENUM("ptak","wiking","kobieta","syrena");
+
+c) INSERT INTO postac(nazwa,rodzaj,data_ur,pesel) VALUES('Gertruda Nieszczera','syrena','1997-06-11',data_ur*100+rand()*100);
+
+Zad3
+a) UPDATE postac SET statek="Dos" where nazwa like '%a%';
+
+b) UPDATE statek SET max_ladownosc=max_ladownosc*0.7 WHERE data_wodowania>="1901-01-01";
+
+c)
