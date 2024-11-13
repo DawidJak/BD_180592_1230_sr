@@ -1,0 +1,16 @@
+1.
+a)CREATE TABLE ekwipunek AS SELECT * FROM wikingowie.ekwipunek;
+  CREATE TABLE zasob AS SELECT * FROM wikingowie.zasob;
+  CREATE TABLE kreatura AS SELECT * FROM wikingowie.kreatura;
+b) SELECT * FROM zasob;
+c) SELECT * FROM zasob WHERE rodzaj='jedzenie';
+d) SELECT idKreatury,idZasobu,ilosc FROM ekwipunek WHERE idKreatury IN (1,3,5) order BY idKreatury;
+
+2.
+a)SELECT * FROM kreatura WHERE rodzaj <>'wiedzma' and udzwig >= 50;
+b)SELECT * FROM zasob WHERE waga BETWEEN 2 AND 5;
+c) SELECT * FROM kreatura WHERE nazwa LIKE "%or%" AND udzwig BETWEEN 30 AND 70;
+
+3.
+a) SELECT * FROM zasob where MONTH(dataPozyskania) IN (8,7);
+
