@@ -1,0 +1,9 @@
+1.
+a) SELECT AVG(waga) FROM kreatura WHERE rodzaj='wiking';
+b) SELECT AVG(waga),COUNT(idKreatury),rodzaj FROM kreatura GROUP BY rodzaj;
+c) SELECT AVG(2024-year(dataUr)),rodzaj FROM kreatura GROUP BY rodzaj;
+2.
+a) SELECT SUM(waga),rodzaj FROM zasob GROUP BY rodzaj;
+b) SELECT AVG(waga),nazwa FROM zasob GROUP BY nazwa HAVING SUM(ilosc)<=4 AND SUM(waga)>10;
+c) SELECT COUNT(nazwa), rodzaj FROM zasob GROUP BY rodzaj HAVING SUM(ilosc)>1;
+3.
