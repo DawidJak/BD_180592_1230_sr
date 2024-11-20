@@ -7,3 +7,7 @@ a) SELECT SUM(waga),rodzaj FROM zasob GROUP BY rodzaj;
 b) SELECT AVG(waga),nazwa FROM zasob GROUP BY nazwa HAVING SUM(ilosc)<=4 AND SUM(waga)>10;
 c) SELECT COUNT(nazwa), rodzaj FROM zasob GROUP BY rodzaj HAVING SUM(ilosc)>1;
 3.
+a)SELECT kreatura.nazwa,SUM(ekwipunek.ilosc) FROM ekwipunek INNER JOIN kreatura ON kreatura.idKreatury=ekwipunek.idKreatury GROUP BY ekwipunek.idKreatury;
+b) SELECT kreatura.nazwa, zasob.nazwa FROM ekwipunek INNER JOIN kreatura ON kreatura.idKreatury=ekwipunek.idKreatury INNER JOIN zasob ON zasob.idZasobu=ekwipunek.idZasobu;
+c) SELECT nazwa FROM kreatura WHERE idKreatury<> ALL (SELECT DISTINCT(ekwipunek.idKreatury) FROM kreatura INNER JOIN ekwipunek ON kreatura.idKreatury = ekwipunek.idKreatury);
+
