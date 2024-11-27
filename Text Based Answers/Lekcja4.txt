@@ -10,4 +10,16 @@ c) SELECT COUNT(nazwa), rodzaj FROM zasob GROUP BY rodzaj HAVING SUM(ilosc)>1;
 a)SELECT kreatura.nazwa,SUM(ekwipunek.ilosc) FROM ekwipunek INNER JOIN kreatura ON kreatura.idKreatury=ekwipunek.idKreatury GROUP BY ekwipunek.idKreatury;
 b) SELECT kreatura.nazwa, zasob.nazwa FROM ekwipunek INNER JOIN kreatura ON kreatura.idKreatury=ekwipunek.idKreatury INNER JOIN zasob ON zasob.idZasobu=ekwipunek.idZasobu;
 c) SELECT nazwa FROM kreatura WHERE idKreatury<> ALL (SELECT DISTINCT(ekwipunek.idKreatury) FROM kreatura INNER JOIN ekwipunek ON kreatura.idKreatury = ekwipunek.idKreatury);
+4
+a) SELECT kreatura.nazwa, zasob.nazwa FROM kreatura NATURAL JOIN ekwipunek J
+OIN zasob ON ekwipunek.idZasobu = zasob.idZasobu WHERE kreatura.rodzaj='wiking'
+AND YEAR(dataUr) BETWEEN 1670 AND 1679;
+b) SELECT kreatura.nazwa FROM kreatura NATURAL JOIN ekwipunek JOIN zasob ON ekwipunek.idZasobu = zasob.idZasobu WHERE zasob.rodzaj='jedzenie' ORDER
+BY kreatura.dataUr DESC LIMIT 6; 
+c) SELECT t1.nazwa,t2.nazwa FROM kreatura t1, kreatura t2 WHERE t1.idKreatury=t2.idKreatury-5;
+
+5
+a) SELECT kreatura.rodzaj, AVG(zasob.waga) FROM kreatura NATURAL JOIN ekwipunek JOIN zasob ON ekwipunek.idZasobu = zasob.idZasobu WHERE kreatura.rodzaj NOT
+IN('malpa','waz') AND zasob.ilosc<30 GROUP BY kreatura.rodzaj;
+b) SELECT t1.nazwa, t2.* FROM kreatura t1 JOIN ( SELECT MIN(dataUr) as dataUr, rodzaj FROM kreatura GROUP BY rodzaj UNION SELECT MAX(dataUr), rodzaj FROM kreatura GROUP BY rodzaj ORDER BY rodzaj) t2 ON t1.dataUr=t2.dataUr ORDER BY rodzaj;
 
