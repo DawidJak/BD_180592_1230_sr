@@ -6,4 +6,12 @@ a)
    CREATE TABLE sektor LIKE wikingowie.sektor; INSERT INTO sektor SELECT * FROM wikingowie.sektor;
    CREATE TABLE wyprawa LIKE wikingowie.wyprawa; INSERT INTO wyprawa SELECT * FROM wikingowie.wyprawa;
 
-b)
+b) SELECT kreatura.nazwa FROM kreatura WHERE idKreatury NOT IN (SELECT id_uczestnika FROM uczestnicy);
+c)  SELECT wyprawa.nazwa, SUM(ekwipunek.ilosc)  FROM wyprawa JOIN uczestnicy ON wyprawa.id_wyprawy=uczestnicy.id_wyprawy JOIN ekwipunek ON uczestnicy.id_uczestnika = ekwipunek.idKreatury GROUP BY wyprawa.nazwa;
+
+2)
+a) SELECT wyprawa.nazwa,COUNT(uczestnicy.id_uczestnika) ,GROUP_CONCAT(kreatura.nazwa)  FROM wyprawa JOIN uczestnicy ON wyprawa.id_wyprawy=uczestnicy.id_wyprawy JOIN kreatura ON uczestnicy.id_uczestnika=kreatura.idKreatury GROUP BY wyprawa.nazwa;
+
+b) SELECT ew.dziennik,sektor.nazwa,kreatura.nazwa from etapy_wyprawy ew join sektor on ew.sektor=sektor.id_sektora join wyprawa on ew.idWyprawy=wyprawa.id_wyprawy join kreatura on wyprawsa.kierownik = kreatura.idKreatury order by wyprawa.data_rozpoczecia, ew.kolejnosc;
+
+3)
