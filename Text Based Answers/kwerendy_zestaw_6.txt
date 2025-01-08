@@ -1,0 +1,60 @@
+1 
+a)
+CREATE TRIGGER weight_check BEFORE UPDATE ON kreatura FOR EACH ROW BEGIN IF (NEW.waga<0) THEN SIGNAL SQLSTATE '02000' SET MESSAGE_TEXT = "niePoprawna Waga"; END IF; END$$
+
+CREATE TRIGGER weight_check1 BEFORE INSERT ON kreatura FOR EACH ROW BEGIN IF (NEW.waga<0) THEN SIGNAL SQLSTATE '02000' SET MESSAGE_TEXT = "niePoprawna Waga"; END IF; END$$
+
+2
+
+
+CREATE TRIGGER archive BEFORE DELETE ON wyprawa
+FOR EACH ROW BEGIN
+	INSERT INTO archiwum_wypraw SET archiwum_wypraw.id_wyprawy=old.id_wyprawy;
+	UPDATE archiwum_wypraw SET archiwum_wypraw.nazwa=old.nazwa WHERE archiwum_wypraw.id_wyprawy=old.id_wyprawy ;
+	UPDATE archiwum_wypraw SET archiwum_wypraw.data_rozpoczecia=old.data_rozpoczecia WHERE archiwum_wypraw.id_wyprawy=old.id_wyprawy ;
+	UPDATE archiwum_wypraw SET archiwum_wypraw.data_zakonczenia=old.data_zakonczenia WHERE archiwum_wypraw.id_wyprawy=old.id_wyprawy ;
+	UPDATE archiwum_wypraw SET archiwum_wypraw.kierwonik = (SELECT k.nazwa from kreatura k where old.kierownik=k.idkreatury) WHERE archiwum_wypraw.id_wyprawy=old.id_wyprawy ;
+END$$
+
+3
+
+a) CREATE PROCEDURE eliksir_sily (IN drinker INT)
+BEGIN 
+UPDATE kreatura SET udzwig=udzwig*1.2 where idKreatury=drinker;
+END$$
+
+b) CREATE FUNCTION better_upper (s CHAR(20))
+	RETURNS CHAR(20)
+	RETURN UPPER(s);
+
+4
+
+a) CREATE TABLE system_alarmowy(id_alarmu int primary key auto_increment,wiadomosc char(50));
+b)
+    CREATE TRIGGER achtung BEFORE INSERT ON uczestnicy
+FOR EACH ROW BEGIN
+IF NEW.id_uczestnika = 14 THEN
+	INSERT INTO system_alarmowy(wiadomosc) values('Teściowa nadchodzi !!!');
+	END IF;
+	END; $$
+   
+
+CREATE TRIGGER attention BEFORE INSERT ON etapy_wyprawy
+FOR EACH ROW BEGIN
+IF NEW.sektor = 7 THEN
+	INSERT INTO system_alarmowy(wiadomosc) values('Teściowa nadchodzi !!!');
+	END IF;
+	END; $$
+
+5
+
+CREATE PROCEDURE number (OUT srednia INT)
+BEGIN 
+SELECT AVG(udzwig) INTO srednia   FROM kreatura;
+END$$
+
+
+CREATE PROCEDURE number (OUT srednia INT, OUT suma INT, OUT maks INT)
+BEGIN 
+SELECT AVG(udzwig) INTO srednia,SUM(udzwig) INTO suma ,MAX(udzwig) INTO maks  FROM kreatura;
+END$$
