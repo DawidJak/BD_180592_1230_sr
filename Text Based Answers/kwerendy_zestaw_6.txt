@@ -47,14 +47,27 @@ IF NEW.sektor = 7 THEN
 	END; $$
 
 5
-
-CREATE PROCEDURE number (OUT srednia INT)
+a)
+CREATE PROCEDURE number (OUT srednia INT,  OUT suma INT, OUT  maks INT)
 BEGIN 
-SELECT AVG(udzwig) INTO srednia   FROM kreatura;
+SELECT AVG(udzwig) INTO srednia FROM kreatura;
+SELECT SUM(udzwig) INTO suma FROM kreatura;
+SELECT MAX(udzwig) INTO maks  FROM kreatura;
 END$$
 
-
-CREATE PROCEDURE number (OUT srednia INT, OUT suma INT, OUT maks INT)
-BEGIN 
-SELECT AVG(udzwig) INTO srednia,SUM(udzwig) INTO suma ,MAX(udzwig) INTO maks  FROM kreatura;
+b)
+CREATE PROCEDURE travel (IN travel_id INT, temp INT)
+BEGIN
+SET temp = 1;
+CREATE VIEW location AS SELECT sektor FROM etapy_wyprawy WHERE idWyprawy=travel_id AND kolejnosc=temp AS location;
+   Grabber: LOOP
+      SET temp = temp+1;
+       REPLACE VIEW location AS SELECT sektor FROM etapy_wyprawy WHERE idWyprawy=travel_id AND kolejnosc=temp UNION location;
+      IF temp<6 THEN
+	ITERATE GRABBER;
+      END IF;
+      LEAVE Grabber;
+  END LOOP Grabber;
+DROP VIEW location;
 END$$
+         
